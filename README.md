@@ -1,2 +1,2 @@
-# sppbdSql
-Oracle Project
+# Jarkom
+Client and Server Chat APP
