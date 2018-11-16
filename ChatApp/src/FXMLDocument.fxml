@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="421.0" prefWidth="547.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="FXMLDocumentController">
+    <children>
+        <Label fx:id="label" layoutX="126" layoutY="120" minHeight="16" minWidth="69" />
+        <Button id="button01" fx:id="button" layoutX="339.0" layoutY="312.0" onAction="#handleButtonAction" prefHeight="83.0" prefWidth="194.0" text="submit" />
+      <TextField id="textfield01" layoutX="21.0" layoutY="312.0" prefHeight="83.0" prefWidth="300.0" />
+      <Separator layoutX="-3.0" layoutY="286.0" prefHeight="0.0" prefWidth="547.0">
+         <effect>
+            <ColorAdjust brightness="-1.0" />
+         </effect>
+      </Separator>
+      <TextArea id="textArea01" editable="false" prefHeight="285.0" prefWidth="547.0" />
+    </children>
+</AnchorPane>
