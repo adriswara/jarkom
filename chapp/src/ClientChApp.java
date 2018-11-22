@@ -64,10 +64,16 @@ public class ClientChApp extends Application {
         //send button
 
         button.setOnAction(action -> {
-            textArea.appendText(hostname + " : "+textField.getText());
-            textArea.appendText(newLine);
-
-            //System.out.println(textField.getText());
+            try {
+                textArea.appendText(hostname + " : "+textField.getText());
+                textArea.appendText(newLine);
+                sendChat();
+                //System.out.println(textField.getText());
+            } catch (UnknownHostException ex) {
+                Logger.getLogger(ClientChApp.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(ClientChApp.class.getName()).log(Level.SEVERE, null, ex);
+            }
         });
         disconnect.setOnAction(action -> {
             try {

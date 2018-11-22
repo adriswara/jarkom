@@ -69,8 +69,14 @@ public class ServerChApp extends Application {
         button.setOnAction(action -> {
             textArea.appendText(hostname + " : " + textField.getText());
             textArea.appendText(newLine);
-
-            //System.out.println(textField.getText());
+            try {
+                sendChat();
+                //System.out.println(textField.getText());
+            } catch (UnknownHostException ex) {
+                Logger.getLogger(ServerChApp.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(ServerChApp.class.getName()).log(Level.SEVERE, null, ex);
+            }
         });
 //        disconnect.setOnAction(action -> {
 //            try {
