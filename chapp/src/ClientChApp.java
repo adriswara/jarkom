@@ -38,12 +38,20 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
-public class TextFieldExperiments extends Application {
+public class ClientChApp extends Application {
 
     Button button = new Button("Send");
     Button disconnect = new Button("Disconnect");
     TextArea textArea = new TextArea();
-    TextField textField = new TextField();
+    InetAddress address = InetAddress.getLocalHost();
+    String hostname  = address.getHostName();
+ 
+    
+    TextField textField = new TextField(hostname + " : ");
+
+    public ClientChApp() throws UnknownHostException {
+
+    }
 
     public void disconnectButton() throws SocketException {
         DatagramSocket clientSocket = new DatagramSocket();
@@ -62,18 +70,18 @@ public class TextFieldExperiments extends Application {
             try {
                 disconnectButton();
             } catch (SocketException ex) {
-                Logger.getLogger(TextFieldExperiments.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ClientChApp.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
 
         //generateTampilan
         HBox box = new HBox(textArea, textField, button, disconnect);
         //ukuran screen
-         GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+        GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
         int width = gd.getDisplayMode().getWidth();
         int height = gd.getDisplayMode().getHeight();
         //generate 
-        
+
         Scene scene = new Scene(box, width, height);
         primaryStage.setScene(scene);
         primaryStage.show();
