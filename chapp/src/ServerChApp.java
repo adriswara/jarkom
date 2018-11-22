@@ -28,6 +28,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
@@ -48,34 +49,36 @@ public class ServerChApp extends Application {
 
     TextField textField = new TextField();
     String newLine = "\n";//buat new line setiap post text area
+    Boolean connected;
 
     public ServerChApp() throws UnknownHostException {
-
+        connected = true;
     }
 
     public void disconnectButton() throws SocketException {
-        DatagramSocket clientSocket = new DatagramSocket();
-        clientSocket.close();
+        DatagramSocket serverSocket = new DatagramSocket();
+        serverSocket.close();
+        textArea.appendText("Disconnected,ended by user");
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        primaryStage.setTitle("ChatApp");
+        primaryStage.setTitle("ChatApp(Server)");
         //send button
 
         button.setOnAction(action -> {
-            textArea.appendText(hostname + " : "+textField.getText());
+            textArea.appendText(hostname + " : " + textField.getText());
             textArea.appendText(newLine);
 
             //System.out.println(textField.getText());
         });
-        disconnect.setOnAction(action -> {
-            try {
-                disconnectButton();
-            } catch (SocketException ex) {
-                Logger.getLogger(ClientChApp.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        });
+//        disconnect.setOnAction(action -> {
+//            try {
+//                disconnectButton();
+//            } catch (SocketException ex) {
+//                Logger.getLogger(ClientChApp.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//        });
 
         //generateTampilan
         HBox box = new HBox(textArea, textField, button, disconnect);
@@ -92,24 +95,29 @@ public class ServerChApp extends Application {
     }
 
     private void sendChat() throws SocketException, UnknownHostException, IOException {
-        InetAddress ip = InetAddress.getByName("Localhost");
-        DatagramSocket clientSocket = new DatagramSocket();
+        DatagramSocket serverSocket = new DatagramSocket(443);
         while (true) {
             byte[] sendBuffer = new byte[1024];
             byte[] receiveBuffer = new byte[1024];
-            textArea.setText("Client + " + textArea);
-            sendBuffer = textField.getText().toString().getBytes();
-            DatagramPacket sendPacket = new DatagramPacket(sendBuffer, sendBuffer.length, ip, 443);
-            clientSocket.send(sendPacket);
-
-            DatagramPacket recievePacket = new DatagramPacket(receiveBuffer, receiveBuffer.length);
-            clientSocket.receive(recievePacket);
-            String serverData = new String(recievePacket.getData());
-            textArea.setText(newLine+"Server: " + serverData);
+            DatagramPacket receivePacket = new DatagramPacket(receiveBuffer, receiveBuffer.length);
+            serverSocket.receive(receivePacket);
+            InetAddress IP = receivePacket.getAddress();
+            int portNo = receivePacket.getPort();
+            String clientData = new String(receivePacket.getData());
+            textArea.setText("\nClient : + " + clientData);
+            textArea.setText("\nServer : ");
+            //send value from field
+            DatagramPacket sendPacket = new DatagramPacket(sendBuffer, sendBuffer.length, IP, portNo);
+            serverSocket.send(sendPacket);
+            if (connected == false) {
+                disconnectButton();
+                break;
+            }
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SocketException, IOException {
+
         Application.launch(args);
     }
 }
