@@ -38,7 +38,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
-public class ClientChApp extends Application {
+public class ServerChApp extends Application {
 
     Button button = new Button("Send");
     Button disconnect = new Button("Disconnect");
@@ -49,7 +49,7 @@ public class ClientChApp extends Application {
     TextField textField = new TextField();
     String newLine = "\n";//buat new line setiap post text area
 
-    public ClientChApp() throws UnknownHostException {
+    public ServerChApp() throws UnknownHostException {
 
     }
 
